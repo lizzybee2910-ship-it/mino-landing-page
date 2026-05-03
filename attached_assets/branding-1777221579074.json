@@ -1,0 +1,128 @@
+{
+  "colorScheme": "light",
+  "fonts": [
+    {
+      "family": "Inter",
+      "role": "body"
+    },
+    {
+      "family": "Roboto",
+      "role": "unknown"
+    }
+  ],
+  "colors": {
+    "primary": "#0C8CE9",
+    "accent": "#7CC4F8",
+    "background": "#000000",
+    "textPrimary": "#000000",
+    "link": "#7CC4F8"
+  },
+  "typography": {
+    "fontFamilies": {
+      "primary": "Inter",
+      "heading": "Inter"
+    },
+    "fontStacks": {
+      "heading": [
+        "Inter",
+        "sans-serif"
+      ],
+      "body": [
+        "Times New Roman"
+      ],
+      "paragraph": [
+        "Inter",
+        "sans-serif"
+      ]
+    },
+    "fontSizes": {
+      "h1": "14px",
+      "h2": "14px",
+      "body": "11px"
+    }
+  },
+  "spacing": {
+    "baseUnit": 4,
+    "borderRadius": "4px"
+  },
+  "components": {
+    "buttonPrimary": {
+      "background": "#FFFFFF",
+      "textColor": "#000000",
+      "borderRadius": "5px",
+      "borderRadiusCorners": {
+        "topLeft": "5px",
+        "topRight": "5px",
+        "bottomRight": "5px",
+        "bottomLeft": "5px"
+      },
+      "shadow": "none"
+    },
+    "buttonSecondary": {
+      "background": "#2C2C2C",
+      "textColor": "#FFFFFF",
+      "borderRadius": "5px",
+      "borderRadiusCorners": {
+        "topLeft": "5px",
+        "topRight": "5px",
+        "bottomRight": "5px",
+        "bottomLeft": "5px"
+      },
+      "shadow": "none"
+    }
+  },
+  "images": {
+    "favicon": "File saved at: attached_assets/favicon.png",
+    "ogImage": "https://www.figma.com/file/15dzgAE5iJquMJ79gHxLPh/thumbnail?ver=thumbnails%2F7b2635ff-578c-41e2-b96e-d23216705bd6&t=cHO83w0DzEdSf5Yc-1"
+  },
+  "__llm_logo_reasoning": {
+    "selectedIndex": -1,
+    "reasoning": "No valid brand logo was found. The candidate is tiny and not suitable as a primary brand logo.",
+    "confidence": 0.2,
+    "rejected": true,
+    "source": "llm"
+  },
+  "__llm_button_reasoning": {
+    "primary": {
+      "index": 3,
+      "text": "Continue with Google",
+      "reasoning": "Button #3 is selected as the primary CTA because it has a distinct action-oriented text 'Continue with Google' and a contrasting light background (#FFFFFF) that stands out against the dark theme of the other buttons."
+    },
+    "secondary": {
+      "index": 0,
+      "text": "Log in or create account",
+      "reasoning": "Button #0 is selected as the secondary button because it shares the same action text as other dark buttons but has a rounded border, making it slightly more prominent. It is from a different color group (#2C2C2C) than the primary."
+    },
+    "confidence": 0.9
+  },
+  "personality": {
+    "tone": "modern",
+    "energy": "medium",
+    "targetAudience": "tech-savvy users"
+  },
+  "designSystem": {
+    "framework": "custom",
+    "componentLibrary": ""
+  },
+  "confidence": {
+    "buttons": 0.9,
+    "colors": 0.9,
+    "overall": 0.9
+  },
+  "__llm_metadata": {
+    "logoSelection": {
+      "llmCalled": true,
+      "llmSucceeded": true,
+      "finalSource": "llm",
+      "rawLogoSelection": {
+        "selectedLogoIndex": -1,
+        "selectedLogoReasoning": "No valid brand logo was found. The candidate is tiny and not suitable as a primary brand logo.",
+        "confidence": 0.2
+      }
+    },
+    "buttonClassification": {
+      "llmCalled": true,
+      "llmSucceeded": true
+    }
+  }
+}
