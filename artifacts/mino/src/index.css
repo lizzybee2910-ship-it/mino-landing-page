@@ -1,0 +1,399 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-border: var(--primary-border);
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary-border: var(--secondary-border);
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-border: var(--muted-border);
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-border: var(--accent-border);
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-border: var(--destructive-border);
+
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-primary-border: var(--sidebar-primary-border);
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-accent-border: var(--sidebar-accent-border);
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --color-mino-cream: hsl(var(--mino-cream));
+  --color-mino-sage: hsl(var(--mino-sage));
+  --color-mino-sage-deep: hsl(var(--mino-sage-deep));
+  --color-mino-forest: hsl(var(--mino-forest));
+  --color-mino-bone: hsl(var(--mino-bone));
+  --color-mino-ink: hsl(var(--mino-ink));
+  --color-mino-sand: hsl(var(--mino-sand));
+  --color-mino-clay: hsl(var(--mino-clay));
+  --color-mino-earth: hsl(var(--mino-earth));
+  --color-mino-espresso: hsl(var(--mino-espresso));
+
+  --font-sans: var(--app-font-sans);
+  --font-serif: var(--app-font-serif);
+  --font-mono: var(--app-font-mono);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* LIGHT MODE — mino editorial palette
+   Editorial refresh (ref: Kinfolk / Cereal / Apartamento):
+   warmer paper-toned background, deeper inkier ficus foreground,
+   richer ochre clay accent for confident editorial moments,
+   tighter section rhythm via slightly bigger cream → bone step. */
+:root {
+  --button-outline: rgba(38, 47, 19, .14);
+  --badge-outline: rgba(38, 47, 19, .08);
+
+  --opaque-button-border-intensity: -8;
+
+  --elevate-1: rgba(38, 47, 19, .04);
+  --elevate-2: rgba(38, 47, 19, .09);
+
+  /* mino brand tokens — refined editorial palette.
+     Token names retained for backward compatibility; values are
+     warmed/deepened relative to the original brand swatches so the
+     page reads as a more confident editorial system. */
+  --mino-cream: 35 40% 92%;        /* Paper    ~#F4ECDB — warmer, more amber */
+  --mino-bone: 30 32% 88%;         /* Chalk    ~#EBDFCC — deeper step from cream */
+  --mino-sage: 32 13% 66%;         /* Taupe    ~#B3A99B */
+  --mino-sage-deep: 88 11% 34%;    /* Sage     ~#565D49 — deeper, more confident moss */
+  --mino-forest: 78 44% 14%;       /* Ficus    ~#272E14 — deeper inky ficus */
+  --mino-ink: 0 0% 12%;            /* Charcoal #1F1F1F */
+
+  /* Editorial accent tokens — clay stepped up to a true ochre so it
+     reads as the confident accent rather than sitting at the same
+     weight as sage and sand. */
+  --mino-sand: 32 42% 83%;         /* Sand     ~#E8D7BD — warmer panel */
+  --mino-clay: 35 60% 60%;         /* Clay     ~#D2A668 — confident editorial ochre */
+  --mino-earth: 40 22% 17%;        /* Earth    ~#34302A — inkier, warmer dark */
+  --mino-espresso: 28 11% 19%;     /* Espresso ~#37312B */
+
+  --background: 35 40% 92%;
+  --foreground: 78 44% 14%;
+  --border: 30 22% 80%;
+
+  --card: 35 44% 95%;
+  --card-foreground: 78 44% 14%;
+  --card-border: 30 22% 80%;
+
+  --sidebar: 35 40% 92%;
+  --sidebar-foreground: 78 44% 14%;
+  --sidebar-border: 30 22% 80%;
+  --sidebar-primary: 78 44% 14%;
+  --sidebar-primary-foreground: 35 40% 92%;
+  --sidebar-accent: 32 28% 84%;
+  --sidebar-accent-foreground: 78 44% 14%;
+  --sidebar-ring: 35 60% 60%;
+
+  --popover: 35 44% 95%;
+  --popover-foreground: 78 44% 14%;
+  --popover-border: 30 22% 80%;
+
+  --primary: 78 44% 14%;
+  --primary-foreground: 35 40% 92%;
+
+  --secondary: 32 24% 86%;
+  --secondary-foreground: 78 44% 14%;
+
+  --muted: 30 24% 87%;
+  --muted-foreground: 88 10% 32%;
+
+  /* Clay-tinted so the editorial accent reaches semantic UI surfaces. */
+  --accent: 35 42% 80%;
+  --accent-foreground: 78 44% 14%;
+
+  --destructive: 0 60% 38%;
+  --destructive-foreground: 35 40% 92%;
+
+  --input: 30 22% 80%;
+  --ring: 35 60% 60%;
+
+  --chart-1: 78 44% 14%;
+  --chart-2: 88 11% 34%;
+  --chart-3: 35 60% 60%;
+  --chart-4: 32 42% 83%;
+  --chart-5: 35 40% 92%;
+
+  /* Brand typography — primary faces are licensed (Spezia Serif Regular C
+     from Luzi Type; Helvetica Neue / Neue Haas Grotesk). When those files
+     are installed locally they will be used automatically; otherwise the
+     stacks fall back to close free analogs already loaded. */
+  --app-font-sans: 'Helvetica Neue', 'Neue Haas Grotesk Display', 'Inter', system-ui, sans-serif;
+  --app-font-serif: 'Spezia Serif', 'Cormorant Garamond', Georgia, serif;
+  --app-font-mono: ui-monospace, Menlo, monospace;
+  --radius: 0rem;
+
+  --shadow-2xs: 0px 1px 0px 0px rgba(38, 47, 19, 0.04);
+  --shadow-xs: 0px 1px 0px 0px rgba(38, 47, 19, 0.05);
+  --shadow-sm: 0px 1px 2px 0px rgba(38, 47, 19, 0.05);
+  --shadow: 0px 1px 3px 0px rgba(38, 47, 19, 0.06);
+  --shadow-md: 0px 2px 6px -1px rgba(38, 47, 19, 0.07);
+  --shadow-lg: 0px 6px 16px -2px rgba(38, 47, 19, 0.08);
+  --shadow-xl: 0px 12px 28px -4px rgba(38, 47, 19, 0.10);
+  --shadow-2xl: 0px 20px 40px -8px rgba(38, 47, 19, 0.12);
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+
+  --sidebar-primary-border: hsl(var(--sidebar-primary));
+  --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+
+  --sidebar-accent-border: hsl(var(--sidebar-accent));
+  --sidebar-accent-border: hsl(from hsl(var(--sidebar-accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+
+  --primary-border: hsl(var(--primary));
+  --primary-border: hsl(from hsl(var(--primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+
+  --secondary-border: hsl(var(--secondary));
+  --secondary-border: hsl(from hsl(var(--secondary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+
+  --muted-border: hsl(var(--muted));
+  --muted-border: hsl(from hsl(var(--muted)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+
+  --accent-border: hsl(var(--accent));
+  --accent-border: hsl(from hsl(var(--accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+
+  --destructive-border: hsl(var(--destructive));
+  --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+}
+
+/* DARK MODE — editorial mood carried through on the same warm-paper
+   / inky-ficus axis. Brand `--mino-*` tokens are re-mapped (not just
+   semantic tokens) because pages and spreads style themselves with
+   `bg-mino-*` / `text-mino-*` utilities; without these overrides
+   light-mode brand colors would leak into the dark theme. The remap
+   inverts the paper / ink axis (cream/bone -> deep paper bg;
+   forest/earth/espresso -> warm-paper callout insets), deepens clay
+   so it stays AA on the inverted callouts, and tunes sage / sage-deep
+   to the contexts where they actually appear. */
+.dark {
+  --button-outline: rgba(244, 236, 219, .10);
+  --badge-outline: rgba(244, 236, 219, .05);
+
+  --opaque-button-border-intensity: 9;
+
+  --elevate-1: rgba(244, 236, 219, .04);
+  --elevate-2: rgba(244, 236, 219, .09);
+
+  --mino-cream: 78 22% 8%;
+  --mino-bone: 78 22% 12%;
+  --mino-sage: 35 22% 38%;
+  --mino-sage-deep: 88 14% 64%;
+  --mino-forest: 35 32% 88%;
+  --mino-ink: 35 30% 95%;
+  --mino-sand: 35 24% 76%;
+  --mino-clay: 35 70% 32%;
+  --mino-earth: 35 32% 86%;
+  --mino-espresso: 35 30% 84%;
+
+  --background: 78 22% 8%;
+  --foreground: 35 30% 90%;
+  --border: 78 14% 20%;
+
+  --card: 78 22% 11%;
+  --card-foreground: 35 30% 90%;
+  --card-border: 78 14% 20%;
+
+  --sidebar: 78 22% 11%;
+  --sidebar-foreground: 35 30% 90%;
+  --sidebar-border: 78 14% 20%;
+  --sidebar-primary: 35 30% 90%;
+  --sidebar-primary-foreground: 78 22% 11%;
+  --sidebar-accent: 78 14% 22%;
+  --sidebar-accent-foreground: 35 30% 90%;
+  --sidebar-ring: 35 60% 64%;
+
+  --popover: 78 22% 11%;
+  --popover-foreground: 35 30% 90%;
+  --popover-border: 78 14% 20%;
+
+  --primary: 35 30% 90%;
+  --primary-foreground: 78 22% 11%;
+
+  --secondary: 78 14% 18%;
+  --secondary-foreground: 35 30% 90%;
+
+  --muted: 78 14% 14%;
+  --muted-foreground: 32 18% 72%;
+
+  /* Clay-tinted so the dark editorial accent reaches semantic UI surfaces. */
+  --accent: 35 28% 22%;
+  --accent-foreground: 35 30% 90%;
+
+  --destructive: 0 60% 50%;
+  --destructive-foreground: 35 30% 92%;
+
+  --input: 78 14% 20%;
+  --ring: 35 60% 64%;
+
+  --chart-1: 35 30% 90%;
+  --chart-2: 35 60% 64%;
+  --chart-3: 88 14% 50%;
+  --chart-4: 78 14% 32%;
+  --chart-5: 78 22% 16%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-feature-settings: "ss01", "cv11";
+    /* Editorial body weight — Inter Medium reads more confidently
+       than Regular at the small body sizes we use, while staying
+       lighter than a UI-style 600. Headings opt out below so the
+       serif display type keeps its delicate Cormorant feel. */
+    font-weight: 500;
+  }
+
+  h1, h2, h3, h4, h5 {
+    @apply font-serif;
+    font-feature-settings: "liga", "dlig";
+    /* Keep editorial serif headlines at Regular so they don't read
+       as chunky. The weight bump above is for body sans only. */
+    font-weight: 400;
+  }
+
+  /* Offset in-page anchor targets so the fixed top nav does not
+     overlap the spread headline when smooth-scrolling. */
+  [id^="editorial-"],
+  section[id] {
+    scroll-margin-top: 6rem;
+  }
+}
+
+@layer utilities {
+  .mino-eyebrow {
+    font-family: var(--app-font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+
+  .mino-rule {
+    background-color: hsl(var(--mino-forest));
+    height: 1px;
+    width: 2rem;
+    display: inline-block;
+  }
+
+  /* Hide ugly search cancel button in Chrome until we can style it properly */
+  input[type="search"]::-webkit-search-cancel-button {
+    @apply hidden;
+  }
+
+  /* Placeholder styling for contentEditable div */
+  [contenteditable][data-placeholder]:empty::before {
+    content: attr(data-placeholder);
+    color: hsl(var(--muted-foreground));
+    pointer-events: none;
+  }
+
+  .no-default-hover-elevate {}
+  .no-default-active-elevate {}
+
+  .toggle-elevate::before,
+  .toggle-elevate-2::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0px;
+    border-radius: inherit;
+    z-index: -1;
+  }
+
+  .toggle-elevate.toggle-elevated::before {
+    background-color: var(--elevate-2);
+  }
+
+  .border.toggle-elevate::before {
+    inset: -1px;
+  }
+
+  .hover-elevate:not(.no-default-hover-elevate),
+  .active-elevate:not(.no-default-active-elevate),
+  .hover-elevate-2:not(.no-default-hover-elevate),
+  .active-elevate-2:not(.no-default-active-elevate) {
+    position: relative;
+    z-index: 0;
+  }
+
+  .hover-elevate:not(.no-default-hover-elevate)::after,
+  .active-elevate:not(.no-default-active-elevate)::after,
+  .hover-elevate-2:not(.no-default-hover-elevate)::after,
+  .active-elevate-2:not(.no-default-active-elevate)::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0px;
+    border-radius: inherit;
+    z-index: 999;
+  }
+
+  .hover-elevate:hover:not(.no-default-hover-elevate)::after,
+  .active-elevate:active:not(.no-default-active-elevate)::after {
+    background-color: var(--elevate-1);
+  }
+
+  .hover-elevate-2:hover:not(.no-default-hover-elevate)::after,
+  .active-elevate-2:active:not(.no-default-active-elevate)::after {
+    background-color: var(--elevate-2);
+  }
+
+  .border.hover-elevate:not(.no-hover-interaction-elevate)::after,
+  .border.active-elevate:not(.no-active-interaction-elevate)::after,
+  .border.hover-elevate-2:not(.no-hover-interaction-elevate)::after,
+  .border.active-elevate-2:not(.no-active-interaction-elevate)::after,
+  .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
+    inset: -1px;
+  }
+}
