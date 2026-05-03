@@ -1,0 +1,139 @@
+uploads = []
+
+[[generated]]
+id = "11B9xorBY96xqznW_wfBf"
+uri = "file://artifacts/mino/public/hero.png"
+type = "image"
+title = "minimalist high-end object on white shelf"
+
+[[generated]]
+id = "TSe0IHEWKi72_AXXtJWmy"
+uri = "file://artifacts/mino/public/feature1.png"
+type = "image"
+title = "close up of refined texture"
+
+[[generated]]
+id = "ZvQmnEowOCtsm4Rd4NAda"
+uri = "file://artifacts/mino/public/feature2.png"
+type = "image"
+title = "serene minimal architectural space"
+
+[[outputs]]
+id = "SzdMD8qWaYiUoqg9HT1Bi"
+uri = "file://.local/prospects/mino_prospects.csv"
+type = "table"
+title = "Mino B2B Prospect List (58 accounts) — CSV"
+
+[[outputs]]
+id = "ppxDcOtgwTwr271JZ4Ved"
+uri = "file://.local/prospects/README.md"
+type = "text"
+title = "Mino Prospect List — Methodology & Tier-1 Briefs"
+
+[[outputs]]
+id = "f3IonU3lZ-JoI5nmjluPO"
+uri = "file://.local/prospects/mino_prospects.json"
+type = "unspecified"
+title = "Mino Prospect List — JSON (for Clay / Apollo import)"
+
+[[outputs]]
+id = "plNzf89ZBGfiG5FCY6_HM"
+uri = "file://.local/product/mino_prd.md"
+type = "text"
+title = "Mino — Wholesale Ordering Portal v1 PRD"
+
+[[outputs]]
+id = "i-TsCnCsA0ij9sYH2CE-l"
+uri = "file://.local/product/mino_roadmap.md"
+type = "text"
+title = "Mino — Now / Next / Later Roadmap"
+
+[[outputs]]
+id = "XyrcoITKbyp-i4iLCzoLd"
+uri = "file://.local/product/mino_backlog.csv"
+type = "table"
+title = "Mino — RICE-scored Backlog (CSV)"
+
+[[outputs]]
+id = "l04QMUip75D_XPhHrl5Zx"
+uri = "file://.local/product/README.md"
+type = "text"
+title = "Mino Product Docs — README"
+
+[[outputs]]
+id = "07901wbdbe7g49ZHzr9MK"
+uri = "file://attached_assets/mino_clean/01_brochure_cover.png"
+type = "image"
+title = "01 — Brochure cover"
+
+[[outputs]]
+id = "F0MJz5XzyEmLUnoZFALjo"
+uri = "file://attached_assets/mino_clean/02_box_embossed.png"
+type = "image"
+title = "02 — Embossed (mino) box"
+
+[[outputs]]
+id = "G5UnCm6HaXpyainlpCzQj"
+uri = "file://attached_assets/mino_clean/03_box_open_vials.png"
+type = "image"
+title = "03 — Open box with vials"
+
+[[outputs]]
+id = "l-oPQ-IGJyyo067BENabo"
+uri = "file://attached_assets/mino_clean/04_vials_pair.png"
+type = "image"
+title = "04 — Vial pair (dark / light)"
+
+[[outputs]]
+id = "GEKqYLWch_jrCPJRrp0p9"
+uri = "file://attached_assets/mino_clean/05_product_cards.png"
+type = "image"
+title = "05 — GHK-CU product cards"
+
+[[outputs]]
+id = "GfzrzxscHsuZ0SbolGC6F"
+uri = "file://attached_assets/mino_clean/06_bpc157_packaging.png"
+type = "image"
+title = "06 — BPC-157 packaging dieline"
+
+[[outputs]]
+id = "rS54nu4xZYhSex5Z1HW9-"
+uri = "file://attached_assets/mino_clean/07_triptych.png"
+type = "image"
+title = "07 — Triptych (box / vials / device)"
+
+[[outputs]]
+id = "H4o-K7ZS-J26B7nYRqaRF"
+uri = "file://attached_assets/mino_clean/08_pen_injectors.png"
+type = "image"
+title = "08 — Pen injectors (dark / light)"
+
+[[outputs]]
+id = "5UuDfSzddQkiHFC0FX4ok"
+uri = "file://attached_assets/mino_clean/09_motsc_box_cartridges.png"
+type = "image"
+title = "09 — MOTS-C box with cartridges"
+
+[[outputs]]
+id = "pxl6DQeCAr_ITATfw8Ox7"
+uri = "file://attached_assets/mino_clean/10_motsc_pens.png"
+type = "image"
+title = "10 — MOTS-C pens in case"
+
+[[outputs]]
+id = "anRuo1lYnL4gsO1fbXyd7"
+uri = "file://attached_assets/mino_clean/11_motsc_kit.png"
+type = "image"
+title = "11 — MOTS-C kit (pen + cartridges)"
+
+[[outputs]]
+id = "62JqUKN7UOCvTGSvNmGhX"
+uri = "file://attached_assets/Photo_Nov_24_2025,_3_59_01_PM_(5)_1777305723783.png"
+type = "image"
+title = "True or False? — Regenerative Cellular Therapy"
+
+[[outputs]]
+id = "Kf5H1FpsnICiVeZ0j8g5j"
+uri = "file://exports/mino-website-node.zip"
+type = "unspecified"
+title = "Mino Website — Node.js deploy bundle (22 MB)"
