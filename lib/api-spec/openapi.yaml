@@ -1,0 +1,724 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: waitlist
+    description: Waitlist signup operations
+  - name: Auth
+    description: Browser and mobile authentication endpoints.
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /auth/user:
+    get:
+      tags: [Auth]
+      operationId: getCurrentAuthUser
+      summary: Get the currently authenticated user
+      parameters:
+        - $ref: '#/components/parameters/AuthorizationSessionHeader'
+        - $ref: '#/components/parameters/SessionCookie'
+      responses:
+        '200':
+          description: Auth status resolved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthUserEnvelope'
+  /auth/register:
+    post:
+      tags: [Auth]
+      operationId: registerWithPassword
+      summary: Create a new account with email and password
+      description: |
+        Creates a new user with the supplied email and password, sets a session
+        cookie, and returns the new user. Fails with 409 if the email is
+        already in use by an existing account (Replit or password).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Account created and signed in.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthUserEnvelope'
+        '400':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: An account with this email already exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /auth/password-login:
+    post:
+      tags: [Auth]
+      operationId: loginWithPassword
+      summary: Sign in with email and password
+      description: |
+        Verifies email + password against an existing account and, on success,
+        sets a session cookie and returns the authenticated user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordLoginRequest'
+      responses:
+        '200':
+          description: Signed in successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthUserEnvelope'
+        '400':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Invalid email or password.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /auth/request-password-reset:
+    post:
+      tags: [Auth]
+      operationId: requestPasswordReset
+      summary: Request a password reset email
+      description: |
+        Sends a one-time password-reset link to the supplied email if it
+        belongs to a verified password account. The endpoint is rate-limited
+        and always returns 200 to avoid disclosing which addresses are
+        registered.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestPasswordResetRequest'
+      responses:
+        '200':
+          description: Reset request acknowledged.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [message]
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /auth/reset-password:
+    post:
+      tags: [Auth]
+      operationId: resetPassword
+      summary: Consume a reset token and set a new password
+      description: |
+        Validates a one-time reset token and, on success, replaces the
+        account's password and clears any existing sessions. The token is
+        single-use and expires after a short window.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        '200':
+          description: Password updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [message]
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Invalid input or expired token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /auth/change-password:
+    post:
+      tags: [Auth]
+      operationId: changePassword
+      summary: Rotate the signed-in user's password
+      description: |
+        Lets a signed-in member change their own password without going through
+        the email-based reset flow. Re-verifies the current password before
+        accepting a new one and revokes every other active session belonging
+        to the user, leaving the caller's current session intact.
+      parameters:
+        - $ref: '#/components/parameters/AuthorizationSessionHeader'
+        - $ref: '#/components/parameters/SessionCookie'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+      responses:
+        '200':
+          description: Password updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [message]
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Caller is not signed in or current password is wrong.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Account does not have a password credential to change.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /auth/sessions:
+    get:
+      tags: [Auth]
+      operationId: listAuthSessions
+      summary: List the signed-in user's active sessions
+      description: |
+        Returns every unexpired session belonging to the caller, with the
+        session that issued the request flagged as `isCurrent`. Each entry
+        carries a stable opaque id (a hash of the session token) which can
+        be passed to `POST /auth/sessions/{id}/revoke` — the raw session
+        token is never returned to the browser.
+      parameters:
+        - $ref: '#/components/parameters/AuthorizationSessionHeader'
+        - $ref: '#/components/parameters/SessionCookie'
+      responses:
+        '200':
+          description: List of active sessions for the caller.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSessionList'
+        '401':
+          description: Caller is not signed in.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /auth/sessions/{id}/revoke:
+    post:
+      tags: [Auth]
+      operationId: revokeAuthSession
+      summary: Sign out one of the caller's active sessions
+      description: |
+        Deletes the named session from the database. The `id` is the opaque
+        identifier returned from `GET /auth/sessions` (a hash of the session
+        token), not the raw session cookie value. If the revoked session is
+        the caller's current session, the response sets `signedOut: true`
+        and clears the session cookie so the client should redirect to `/`.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Opaque session id from `GET /auth/sessions`.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/AuthorizationSessionHeader'
+        - $ref: '#/components/parameters/SessionCookie'
+      responses:
+        '200':
+          description: Session revoked.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSessionRevokeResult'
+        '401':
+          description: Caller is not signed in.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Session does not exist or does not belong to the caller.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /auth/security-events:
+    get:
+      tags: [Auth]
+      operationId: listRecentSecurityEvents
+      summary: List recent security events for the authenticated user
+      description: |
+        Returns the ten most recent security-relevant events recorded for the
+        currently authenticated account (successful sign-ins, password resets,
+        and password changes), most recent first. Used to power an in-account
+        "recent activity" panel so members can audit their account at a glance.
+      parameters:
+        - $ref: '#/components/parameters/AuthorizationSessionHeader'
+        - $ref: '#/components/parameters/SessionCookie'
+      responses:
+        '200':
+          description: Recent security events for the caller.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityEventList'
+        '401':
+          description: Caller is not signed in.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /login:
+    get:
+      tags: [Auth]
+      operationId: beginBrowserLogin
+      summary: Start the browser OIDC login flow
+      parameters:
+        - name: returnTo
+          in: query
+          required: false
+          description: Relative path to redirect to after login (must start with `/`). Defaults to `/`.
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Redirect to the OIDC authorization endpoint.
+  /callback:
+    get:
+      tags: [Auth]
+      operationId: handleBrowserLoginCallback
+      summary: Complete the browser OIDC login flow
+      parameters:
+        - name: code
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: state
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: iss
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uri
+      responses:
+        '302':
+          description: Redirect to the `returnTo` path on success (defaults to `/`) or `/api/login` on failure.
+  /logout:
+    get:
+      tags: [Auth]
+      operationId: logoutBrowserSession
+      summary: Clear the session and begin OIDC logout
+      parameters:
+        - $ref: '#/components/parameters/AuthorizationSessionHeader'
+        - $ref: '#/components/parameters/SessionCookie'
+      responses:
+        '302':
+          description: Redirect to the OIDC provider logout URL.
+  /mobile-auth/token-exchange:
+    post:
+      tags: [Auth]
+      operationId: exchangeMobileAuthorizationCode
+      summary: Exchange a mobile OIDC code for a session token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MobileTokenExchangeRequest'
+      responses:
+        '200':
+          description: Session created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MobileTokenExchangeSuccess'
+        '400':
+          description: Missing or invalid required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Token did not contain usable claims.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Token exchange failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /mobile-auth/logout:
+    post:
+      tags: [Auth]
+      operationId: logoutMobileSession
+      summary: Delete a mobile session token
+      parameters:
+        - $ref: '#/components/parameters/AuthorizationSessionHeader'
+      responses:
+        '200':
+          description: Logout processed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutSuccess'
+  /waitlist:
+    post:
+      operationId: createWaitlistSignup
+      tags: [waitlist]
+      summary: Create a waitlist signup
+      description: Submit a waitlist signup for early access to mino.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WaitlistSignupInput"
+      responses:
+        "200":
+          description: Request acknowledged
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [message]
+                properties:
+                  message:
+                    type: string
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+components:
+  parameters:
+    AuthorizationSessionHeader:
+      name: Authorization
+      in: header
+      required: false
+      description: Opaque session token — `Bearer <sid>`.
+      schema:
+        type: string
+    SessionCookie:
+      name: sid
+      in: cookie
+      required: false
+      description: Browser session cookie.
+      schema:
+        type: string
+  schemas:
+    AuthUser:
+      type: object
+      required: [id, email, firstName, lastName, profileImageUrl]
+      properties:
+        id:
+          type: string
+        email:
+          type: [string, 'null']
+          format: email
+        firstName:
+          type: [string, 'null']
+        lastName:
+          type: [string, 'null']
+        profileImageUrl:
+          type: [string, 'null']
+    AuthUserEnvelope:
+      type: object
+      required: [user]
+      properties:
+        user:
+          oneOf:
+            - $ref: '#/components/schemas/AuthUser'
+            - type: 'null'
+    RegisterRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 320
+        password:
+          type: string
+          minLength: 8
+          maxLength: 200
+        firstName:
+          type: [string, 'null']
+          maxLength: 100
+        lastName:
+          type: [string, 'null']
+          maxLength: 100
+    PasswordLoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 320
+        password:
+          type: string
+          minLength: 1
+          maxLength: 200
+    RequestPasswordResetRequest:
+      type: object
+      required: [email]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 320
+    ResetPasswordRequest:
+      type: object
+      required: [token, password]
+      properties:
+        token:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          minLength: 8
+          maxLength: 200
+    AuthSession:
+      type: object
+      required: [id, createdAt, isCurrent]
+      properties:
+        id:
+          type: string
+          description: Opaque, stable id derived from the session token. Use this with the revoke endpoint.
+        createdAt:
+          type: string
+          format: date-time
+          description: When the session was created. May be approximated for sessions issued before tracking was added.
+        userAgent:
+          type: [string, 'null']
+          description: Raw User-Agent header captured when the session was created.
+        ipAddress:
+          type: [string, 'null']
+          description: IP address captured when the session was created.
+        isCurrent:
+          type: boolean
+          description: True for the session that issued this request.
+    AuthSessionList:
+      type: object
+      required: [sessions]
+      properties:
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthSession'
+    AuthSessionRevokeResult:
+      type: object
+      required: [revoked, signedOut]
+      properties:
+        revoked:
+          type: boolean
+          const: true
+        signedOut:
+          type: boolean
+          description: True when the revoked session was the caller's current session.
+    ChangePasswordRequest:
+      type: object
+      required: [currentPassword, newPassword]
+      properties:
+        currentPassword:
+          type: string
+          minLength: 1
+          maxLength: 200
+        newPassword:
+          type: string
+          minLength: 8
+          maxLength: 200
+    MobileTokenExchangeRequest:
+      type: object
+      required: [code, code_verifier, redirect_uri, state]
+      properties:
+        code:
+          type: string
+          minLength: 1
+        code_verifier:
+          type: string
+          minLength: 1
+        redirect_uri:
+          type: string
+          minLength: 1
+          format: uri
+        state:
+          type: string
+          minLength: 1
+        nonce:
+          type: string
+          minLength: 1
+    MobileTokenExchangeSuccess:
+      type: object
+      required: [token]
+      properties:
+        token:
+          type: string
+    LogoutSuccess:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+          const: true
+    SecurityEvent:
+      type: object
+      required: [id, eventType, ipAddress, userAgent, createdAt]
+      properties:
+        id:
+          type: string
+        eventType:
+          type: string
+          description: |
+            One of `login_password`, `login_oidc`, `password_reset`, or
+            `password_changed`. Open-ended so future event types can be added
+            without a breaking schema change.
+        ipAddress:
+          type: [string, 'null']
+        location:
+          type: [string, 'null']
+          description: |
+            Approximate human-readable location resolved server-side from the
+            recorded IP (e.g. `"Chicago, United States"`). `null` when the IP
+            is missing, private, or could not be resolved — clients should
+            render an "Unknown location" fallback in that case.
+        userAgent:
+          type: [string, 'null']
+        createdAt:
+          type: string
+          format: date-time
+    SecurityEventList:
+      type: object
+      required: [events]
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/SecurityEvent'
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+    WaitlistRole:
+      type: string
+      enum:
+        - provider
+        - clinic_owner
+        - partner
+        - patient
+        - other
+    WaitlistSignupInput:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        email:
+          type: string
+          format: email
+          maxLength: 320
+        role:
+          $ref: "#/components/schemas/WaitlistRole"
+        notes:
+          type: ["string", "null"]
+          maxLength: 2000
+      required:
+        - name
+        - email
+        - role
+    WaitlistSignup:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          $ref: "#/components/schemas/WaitlistRole"
+        notes:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - email
+        - role
+        - notes
+        - createdAt
