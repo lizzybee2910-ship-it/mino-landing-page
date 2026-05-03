@@ -1,0 +1,60 @@
+Landing Page Copy — [Brand]
+Hero Section
+Eyebrow: A new standard in peptide-powered wellness
+Headline: The science of longevity, refined.
+Sub-headline: [Brand] is the premium peptide platform for clinicians, partners, and the people they serve — pairing clinical-grade Retatrutide, Tirzepatide, and NAD protocols with the brand experience modern wellness deserves.
+Primary CTA: Join the Waitlist Secondary CTA: Explore the Platform
+Supporting line under CTA: Early access opens this quarter. Limited onboarding cohorts.
+
+Trust Bar (just under hero)
+Clinically-formulated · Provider-vetted · Quality-certified · Partner-trusted
+
+Section 1 — The Promise
+Headline: Peptides, elevated to a standard worth your name.
+Body: Peptide therapy is reshaping metabolic health, longevity, and performance — but the category has outpaced the standards around it. [Brand] was built to change that. We curate a focused line of peptide protocols, surrounded by the rigor, branding, and partner support that turn a product into a practice.
+
+Section 2 — The Product Line
+Headline: A focused portfolio. Designed to lead.
+Three columns:
+Retatrutide The next generation of metabolic optimization. Formulated for measurable change and long-term adherence.
+Tirzepatide A clinically-established cornerstone of modern weight and metabolic care, delivered with [Brand] quality assurance.
+NAD Cellular energy, restored. Our NAD protocol is engineered for clarity, recovery, and the long arc of healthy aging.
+CTA: See the full protocol library →
+
+Section 3 — For Partners & Clinicians
+Headline: Your practice, powered by a brand patients trust.
+Body: [Brand] is more than a supplier. We're a B2B platform built for clinics, providers, and wellness brands that refuse to compromise on quality or presentation. Become a certified partner and gain access to vetted protocols, co-branded marketing collateral, and a credentialing program that signals the standard you set.
+Bulleted benefits:
+* Certified Partner status with the [Brand] credential
+* Turnkey marketing and patient-education materials
+* Priority access to new protocols and clinical resources
+* Dedicated partnership and onboarding support
+CTA: Apply for Partnership
+
+Section 4 — For the People You Serve
+Headline: Outcomes patients can feel. A brand they can believe in.
+Body: Whether you're seeking better metabolic health, sharper recovery, or a more deliberate approach to longevity, [Brand] protocols are delivered through a network of certified providers — so the experience matches the outcome.
+CTA: Find a Certified Provider
+
+Section 5 — The [Brand] Standard
+Headline: Certified. Credentialed. Uncompromising.
+Body: Every product, partner, and protocol carries the [Brand] mark — a certification built on sourcing transparency, clinical alignment, and brand integrity. When you see it, you know what it stands for.
+Three pillars:
+* Sourced with rigor. Pharmaceutical-grade inputs, fully traceable.
+* Clinically aligned. Protocols developed with practicing providers.
+* Built to elevate. Premium presentation, from packaging to patient experience.
+
+Section 6 — Waitlist (Primary Conversion)
+Headline: Be first to access [Brand].
+Sub-headline: We're onboarding a limited number of providers, partners, and founding members ahead of public launch. Join the waitlist for early access, exclusive briefings, and priority onboarding.
+Form fields:
+* Name
+* Email
+* I am a… (Provider / Clinic owner / Partner / Patient / Other)
+* Notes (optional)
+Button: Reserve My Place
+Reassurance line: No spam. Just a quiet note when your access opens.
+
+Footer Tagline
+[Brand] — The premium standard in peptide health.
+
