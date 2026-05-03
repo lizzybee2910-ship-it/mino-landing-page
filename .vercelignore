@@ -1,0 +1,16 @@
+artifacts/api-server
+artifacts/mockup-sandbox
+.local
+.cache
+.replit
+.replitignore
+.replit-artifact
+attached_assets
+exports
+test-results
+playwright-report
+node_modules
+**/dist
+.github
+threat_model.md
+skills-lock.json
